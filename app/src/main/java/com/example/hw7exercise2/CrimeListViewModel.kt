@@ -16,14 +16,11 @@ class CrimeListViewModel : ViewModel() {
 
     private val crimeRepository = CrimeRepository.get()
 
-    //val crimes = crimeRepository.getCrimes()
-
     private val _crimes: MutableStateFlow<List<Crime>> = MutableStateFlow(emptyList())
     val crimes: StateFlow<List<Crime>>
         get() = _crimes.asStateFlow()
 
     init {
-        //Log.d(TAG, "init starting")
         viewModelScope.launch {
 
             crimeRepository.getCrimes().collect {

@@ -24,18 +24,16 @@ class CrimeHolder (
 
         binding.root.setOnClickListener{
 
-            /* Toast.makeText(
 
-                 binding.root.context,
-                 "${crime.title} clicked",
-                 Toast.LENGTH_SHORT
-             ).show()*/
             onCrimeClicked(crime.id)
+
         }
 
         binding.crimeSolved.visibility = if (crime.isSolved) {
             View.VISIBLE
-        } else {
+
+        } else
+        {
             View.GONE
         }
     }
@@ -57,11 +55,6 @@ class CrimeListAdapter(
     override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
 
         val crime = crimes[position]
-        /* holder.apply {
-             binding.crimeTitle.text = crime.title
-             binding.crimeDate.text = crime.date.toString()
-
-         }*/
 
         holder.bind(crime, onCrimeClicked)
     }

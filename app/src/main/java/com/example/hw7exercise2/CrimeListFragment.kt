@@ -20,8 +20,6 @@ import kotlinx.coroutines.launch
 
 
 
-//private const val TAG = "CrimeListFragment"
-
 class CrimeListFragment :Fragment() {
 
     private var _binding: FragmentCrimeListBinding? = null
@@ -32,12 +30,7 @@ class CrimeListFragment :Fragment() {
         }
 
     private val crimeListViewModel :CrimeListViewModel by viewModels()
-//    private var job: Job? = null
 
-    /*  override fun onCreate(savedInstanceState: Bundle?) {
-          super.onCreate(savedInstanceState)
-          Log.d(TAG, "total Crimes :  ${crimeListViewModel.crimes.size}")
-      }*/
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,40 +40,20 @@ class CrimeListFragment :Fragment() {
 
         binding.crimeRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        /* val crimes = crimeListViewModel.crimes
-         val adapter = CrimeListAdapter(crimes)
-         binding.crimeRecyclerView.adapter = adapter*/
 
         return binding.root
     }
 
-    /*  override fun onStart(){
-          super.onStart()
-
-          job = viewLifecycleOwner.lifecycleScope.launch{
-              val crimes = crimeListViewModel.loadCrimes()
-              binding.crimeRecyclerView.adapter = CrimeListAdapter(crimes)
-          }
-
-      }*/
-
-    /*   override fun onStop() {
-           super.onStop()
-           job?.cancel()
-
-       }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                // val crimes = crimeListViewModel.loadCrimes()
                 crimeListViewModel.crimes.collect() { crimes ->
                     binding.crimeRecyclerView.adapter =
                         CrimeListAdapter(crimes){ crimeId->
                             findNavController().navigate(
-                                // R.id.show_crime_detail
                                 CrimeListFragmentDirections.showCrimeDetail(crimeId)
                             )
                         }

@@ -26,7 +26,7 @@ class CrimeRepository private constructor(
         .createFromAsset(DATABASE_NAME)
         .build()
 
-    suspend fun getCrimes(): Flow<List<Crime>> = database.crimeDao().getCrimes()
+   suspend fun getCrimes(): Flow<List<Crime>> = database.crimeDao().getCrimes()
 
     suspend fun getCrime(id: UUID): Crime = database.crimeDao().getCrime(id)
 

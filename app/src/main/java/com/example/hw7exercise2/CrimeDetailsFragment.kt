@@ -1,12 +1,15 @@
 package com.example.hw7exercise2
 
 import android.R
+import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
 import androidx.core.util.Preconditions.checkNotNull
 import androidx.core.widget.doOnTextChanged
@@ -15,45 +18,30 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.hw7exercise2.databinding.FragmentCrimeDetailBinding
 import kotlinx.coroutines.launch
 import java.util.*
 
 
-//private const val TAG = "CrimeDetailFragment"
+class CrimeDetailsFragment :Fragment() {
 
-class CrimeDetailsFragment :Fragment(){
 
-    // private lateinit var crime:Crime
     private val args: CrimeDetailsFragmentArgs by navArgs()
 
     private val crimeDetailViewModel: CrimeDetailViewModel by viewModels {
         CrimeDetailViewModel.CrimeDetailViewModelFactory(args.crimeId)
     }
 
-    //private lateinit var binding :FragmentCrimeDetailBinding
-    private var _binding : FragmentCrimeDetailBinding? =  null
+    private var _binding: FragmentCrimeDetailBinding? = null
 
     private val binding
-        get() = checkNotNull(_binding){
+        @SuppressLint("RestrictedApi")
+        get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visisble"
-
         }
 
-    /*  override fun onCreate(savedInstanceState: Bundle?) {
-          super.onCreate(savedInstanceState)
-
-          crime = Crime(
-
-              UUID.randomUUID(),
-              title = "",
-              date = Date(),
-              isSolved = false
-
-          )
-          Log.d(TAG, "The crime ID is: ${args.crimeId}")
-      }*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,11 +49,12 @@ class CrimeDetailsFragment :Fragment(){
         savedInstanceState: Bundle?
     ): View? {
 
-        //binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
+
         _binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
 
 
+//Exercise #2 Attempt #1 for back button recognition
 //        val backPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
 //
 //            override fun handleOnBackPressed() {
@@ -86,30 +75,58 @@ class CrimeDetailsFragment :Fragment(){
 //        requireActivity().onBackPressedDispatcher.addCallback(this, backPressedCallback)
 
 
-                val onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
+//Exercise #2 Attempt #2 for back button recognition
 
-                if(binding.crimeTitle == null) {
+//I feel Like after my third attempt I have most of the commands coded
+//Im just looking for help as to where this piece of code needs to be in the page
+//The last error im running into is that my binding.crimeTitle isn't being recognized as string but an editText
+//I think this is because im using binding to find it and im not sure what other way I can reference the title...
+        val onBackPressedCallback = object : OnBackPressedCallback(true)
 
-                    Toast.makeText(
-                        binding.root.context,
-                        "Cannot Leave Blank Title",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    requireActivity().onBackPressedDispatcher.addCallback(this, backPressedCallback)
-                }
+      fun handleOnBackPressed(): OnBackPressedCallback {
 
+
+            if (binding.crimeTitle == " ") {
+
+
+                Toast.makeText(
+                    binding.root.context,
+                    "Cannot Leave Blank Title",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                requireActivity().onBackPressedDispatcher.addCallback(
+                    viewLifecycleOwner,
+                    onBackPressedCallback
+                )
+
+                findNavController().popBackStack()
+
+            } else {
+                requireActivity().onBackPressedDispatcher.addCallback(
+                    viewLifecycleOwner,
+                    onBackPressedCallback
+                )
             }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
 
+//Im not sure but I think this error is coming down to where this statement is placed in the page
+//I have another similar version at the bottom but I feel this one is closer to being right
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            handleOnBackPressed()
+        )
 
     }
 
 
 
-    //Wiring up views in a fragment
+
+
+
+
+
+
 
 
 
@@ -118,24 +135,24 @@ class CrimeDetailsFragment :Fragment(){
 
         binding.apply {
 
-            // listener for edit text
+
             crimeTitle.doOnTextChanged{text,_,_,_ ->
-                // crime = crime.copy(title = text.toString())`false`
+
                 crimeDetailViewModel.updateCrime { oldCrime -> oldCrime.copy(title = text.toString())
                 }
 
             }
 
-            // listener for button
+
             crimeDate.apply {
-                //  text = crime.date.toString()
+
                 isEnabled = false
 
             }
 
-            // listener for textbox changes
+
             crimeSolved.setOnCheckedChangeListener{_, isCheckeed ->
-                //  crime = crime.copy(isSolved = isCheckeed)
+
                 crimeDetailViewModel.updateCrime { oldCrime -> oldCrime.copy(isSolved = isCheckeed)
                 }
             }
@@ -169,6 +186,8 @@ class CrimeDetailsFragment :Fragment(){
     }
 
 
+
+//Exercise #2 Attempt #3 for back button recognition
 //    override fun onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState)
 //
