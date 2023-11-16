@@ -54,77 +54,51 @@ class CrimeDetailsFragment :Fragment() {
         return binding.root
 
 
-//Exercise #2 Attempt #1 for back button recognition
-//        val backPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-//
-//            override fun handleOnBackPressed() {
-//                CrimeDetailsFragmentArgs.Builder(Objects.requireNonNull(activity))
-//
-//                if(binding.crimeTitle == " ") {
-//                    Toast.makeText(
-//                        binding.root.context,
-//                        "${crime.title} clicked",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                } else {
-//                    requireActivity().onBackPressedDispatcher.addCallback(this, backPressedCallback)
-//                }
-//            }
-//
-//        }
-//        requireActivity().onBackPressedDispatcher.addCallback(this, backPressedCallback)
-
-
 //Exercise #2 Attempt #2 for back button recognition
 
-//I feel Like after my third attempt I have most of the commands coded
-//Im just looking for help as to where this piece of code needs to be in the page
-//The last error im running into is that my binding.crimeTitle isn't being recognized as string but an editText
-//I think this is because im using binding to find it and im not sure what other way I can reference the title...
+//Creating a new crimeTitle variable at the top worked out perfect
+//For the next error regarding an expected class body, do I just need to create something like this...
+//override fun onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState)
+
+        val crimeTitle = binding.crimeTitle.toString()
         val onBackPressedCallback = object : OnBackPressedCallback(true)
 
-      fun handleOnBackPressed(): OnBackPressedCallback {
 
+            fun handleOnBackPressed(): OnBackPressedCallback {
+            super.onCreate(savedInstanceState)
 
-            if (binding.crimeTitle == " ") {
+                if (crimeTitle == " ") {
 
+                    Toast.makeText(
+                        binding.root.context,
+                        "Cannot Leave Blank Title",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-                Toast.makeText(
-                    binding.root.context,
-                    "Cannot Leave Blank Title",
-                    Toast.LENGTH_SHORT
-                ).show()
+                    requireActivity().onBackPressedDispatcher.addCallback(
+                        viewLifecycleOwner,
+                        onBackPressedCallback
+                    )
 
-                requireActivity().onBackPressedDispatcher.addCallback(
-                    viewLifecycleOwner,
-                    onBackPressedCallback
-                )
+                    findNavController().popBackStack()
 
-                findNavController().popBackStack()
-
-            } else {
-                requireActivity().onBackPressedDispatcher.addCallback(
-                    viewLifecycleOwner,
-                    onBackPressedCallback
-                )
-            }
+                } else {
+                    requireActivity().onBackPressedDispatcher.addCallback(
+                        viewLifecycleOwner,
+                        onBackPressedCallback
+                    )
+                }
 
 //Im not sure but I think this error is coming down to where this statement is placed in the page
 //I have another similar version at the bottom but I feel this one is closer to being right
+            }
+
+            requireActivity().onBackPressedDispatcher.addCallback(
+                viewLifecycleOwner,
+                handleOnBackPressed()
+            )
         }
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            handleOnBackPressed()
-        )
-
-    }
-
-
-
-
-
-
-
 
 
 
