@@ -68,7 +68,6 @@ class CrimeDetailsFragment :Fragment() {
 //override fun onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState)
 
-
         val crimeTitle = binding.crimeTitle.toString()
         val onBackPressedCallback = object : OnBackPressedCallback(true)
 
