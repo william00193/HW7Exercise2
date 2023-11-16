@@ -43,6 +43,10 @@ class CrimeDetailsFragment :Fragment() {
         }
 
 
+
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,6 +57,9 @@ class CrimeDetailsFragment :Fragment() {
         _binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
 
+        handleOnBackPressed()
+    }
+
 
 //Exercise #2 Attempt #2 for back button recognition
 
@@ -61,44 +68,46 @@ class CrimeDetailsFragment :Fragment() {
 //override fun onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState)
 
+
         val crimeTitle = binding.crimeTitle.toString()
         val onBackPressedCallback = object : OnBackPressedCallback(true)
 
 
-            fun handleOnBackPressed(): OnBackPressedCallback {
-            super.onCreate(savedInstanceState)
+         fun handleOnBackPressed(): OnBackPressedCallback {
 
-                if (crimeTitle == " ") {
 
-                    Toast.makeText(
-                        binding.root.context,
-                        "Cannot Leave Blank Title",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            if (crimeTitle == " ") {
 
-                    requireActivity().onBackPressedDispatcher.addCallback(
-                        viewLifecycleOwner,
-                        onBackPressedCallback
-                    )
 
-                    findNavController().popBackStack()
+                Toast.makeText(
+                    binding.root.context,
+                    "Cannot Leave Blank Title",
+                    Toast.LENGTH_SHORT
+                ).show()
 
-                } else {
-                    requireActivity().onBackPressedDispatcher.addCallback(
-                        viewLifecycleOwner,
-                        onBackPressedCallback
-                    )
-                }
+                requireActivity().onBackPressedDispatcher.addCallback(
+                    viewLifecycleOwner,
+                    onBackPressedCallback
+                )
 
-//Im not sure but I think this error is coming down to where this statement is placed in the page
-//I have another similar version at the bottom but I feel this one is closer to being right
+                findNavController().popBackStack()
+
+            } else {
+                requireActivity().onBackPressedDispatcher.addCallback(
+                    viewLifecycleOwner,
+                    onBackPressedCallback
+                )
+
             }
 
             requireActivity().onBackPressedDispatcher.addCallback(
                 viewLifecycleOwner,
                 handleOnBackPressed()
             )
+            return handleOnBackPressed()
         }
+
+
 
 
 
