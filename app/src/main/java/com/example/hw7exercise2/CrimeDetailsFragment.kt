@@ -2,6 +2,7 @@ package com.example.hw7exercise2
 
 import android.R
 import android.annotation.SuppressLint
+import android.app.ProgressDialog.show
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.annotation.Nullable
+import androidx.core.text.trimmedLength
 import androidx.core.util.Preconditions.checkNotNull
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -42,7 +44,7 @@ class CrimeDetailsFragment :Fragment() {
     private val binding
         @SuppressLint("RestrictedApi")
         get() = checkNotNull(_binding) {
-            "Cannot access binding because it is null. Is the view visisble"
+            "Cannot access binding because it is null. Is the view visible"
         }
 
 
@@ -55,91 +57,79 @@ class CrimeDetailsFragment :Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        handleOnBackPressed()
+
+//Calling function for part B of exercise
+        setOnBackPressed()
 
         _binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
 
-
-
-//
-//            val crimeTitle = binding.crimeTitle.toString()
-//            val onBackPressedCallback = object : OnBackPressedCallback(true)
-//
-//            val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-//                if (crimeTitle == " ") {
-//
-//
-//                    Toast.makeText(
-//                        binding.root.context,
-//                        "Cannot Leave Blank Title",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//
-//                    requireActivity().onBackPressedDispatcher.addCallback(
-//                        viewLifecycleOwner,
-//                        onBackPressedCallback
-//                    )
-//
-//                    findNavController().popBackStack()
-//
-//                } else {
-//                    requireActivity().onBackPressedDispatcher.addCallback(
-//                        viewLifecycleOwner,
-//                        onBackPressedCallback
-//                    )
-//
-//                }
-//            }
-//
-//            enable()
-        }
-
-
-
-
-
-
-
-//Exercise #2 Attempt #2 for back button recognition
-
-//Creating a new crimeTitle variable at the top worked out perfect
-//For the next error regarding an expected class body, do I just need to create something like this...
-//override fun onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState)
-//
-        val crimeTitle = binding.crimeTitle.toString()
-        val onBackPressedCallback = object : OnBackPressedCallback(true)
-
-
-         fun handleOnBackPressed(): OnBackPressedCallback {
-
-
-        if (crimeTitle == " ") {
-
-
-            Toast.makeText(
-                binding.root.context,
-                "Cannot Leave Blank Title",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            requireActivity().onBackPressedDispatcher.addCallback(
-                viewLifecycleOwner,
-                onBackPressedCallback
-            )
-
-            findNavController().popBackStack()
-
-        } else {
-            requireActivity().onBackPressedDispatcher.addCallback(
-                viewLifecycleOwner,
-                onBackPressedCallback
-            )
-
-        }
-
     }
+
+
+
+
+
+private fun setOnBackPressed() {
+
+    requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
+
+
+        override fun handleOnBackPressed() {
+
+
+
+//Started with just the first variable, (crimeTitle == " ") wasn't working I tried a work around below
+            val crimeTitle = binding.crimeTitle.toString()
+            val codedCrimeTitleLength = crimeTitle.length
+
+//No matter how many characters I add to the title It continues to register as '130' in length and doesn't budge
+//What I left the condition to equal for debugging
+            if (codedCrimeTitleLength == 130) {
+
+//Toast that will display the length of current crime title
+                Toast.makeText(binding.root.context,
+                    "$codedCrimeTitleLength",
+                    Toast.LENGTH_SHORT)
+                    .show()
+
+//Toast that shows why (crimeTitle == " ") wont register
+                Toast.makeText(binding.root.context,
+                    "$crimeTitle",
+                    Toast.LENGTH_SHORT)
+                    .show()
+
+//Toast I will keep once debugging is done
+                Toast.makeText(binding.root.context,
+                    "Title Does Not Have a Value",
+                    Toast.LENGTH_SHORT)
+                    .show()
+
+        } else  {
+
+
+//What toast will be once debugging is complete
+                Toast.makeText(binding.root.context,
+                    "Title Has Been Saved",
+                    Toast.LENGTH_SHORT)
+                    .show()
+
+//Toast that displays what the current title is registering as
+                Toast.makeText(binding.root.context,
+                    "$crimeTitle",
+                    Toast.LENGTH_SHORT)
+                    .show()
+
+                isEnabled = true
+
+                findNavController().popBackStack()
+        }
+
+        }
+
+    })
+
+}
 
 
 
@@ -202,35 +192,6 @@ class CrimeDetailsFragment :Fragment() {
         _binding = null
     }
 
-
-
-//Exercise #2 Attempt #3 for back button recognition
-//    override fun onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState)
-//
-//        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-//
-//            requireActivity().onBackPressedDispatcher.addCallback(
-//                this,
-//                object : OnBackPressedCallback(true) {
-//                    override fun handleOnBackPressed() {
-//
-//                        Toast.makeText(
-//                                      binding.root.context,
-//                                      "${crime.title} clicked",
-//                                      Toast.LENGTH_SHORT
-//                                  ).show()
-//                    }
-//                        if (isEnabled) {
-//                            isEnabled = false
-//                            requireActivity().onBackPressed()
-//                        }
-//                    }
-//                }
-//            )
-//    }
-
-//
 
 
 }
