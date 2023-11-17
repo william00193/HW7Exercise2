@@ -107,7 +107,7 @@ class CrimeDetailsFragment :Fragment() {
 //For the next error regarding an expected class body, do I just need to create something like this...
 //override fun onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState)
-
+//
         val crimeTitle = binding.crimeTitle.toString()
         val onBackPressedCallback = object : OnBackPressedCallback(true)
 
