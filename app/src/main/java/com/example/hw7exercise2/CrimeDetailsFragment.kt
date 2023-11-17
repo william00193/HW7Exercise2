@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
+import androidx.annotation.Nullable
 import androidx.core.util.Preconditions.checkNotNull
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -22,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.hw7exercise2.databinding.FragmentCrimeDetailBinding
 import kotlinx.coroutines.launch
+import java.lang.Compiler.enable
 import java.util.*
 
 
@@ -46,19 +49,56 @@ class CrimeDetailsFragment :Fragment() {
 
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        handleOnBackPressed()
 
         _binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
 
-        handleOnBackPressed()
-    }
+
+
+//
+//            val crimeTitle = binding.crimeTitle.toString()
+//            val onBackPressedCallback = object : OnBackPressedCallback(true)
+//
+//            val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+//                if (crimeTitle == " ") {
+//
+//
+//                    Toast.makeText(
+//                        binding.root.context,
+//                        "Cannot Leave Blank Title",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//
+//                    requireActivity().onBackPressedDispatcher.addCallback(
+//                        viewLifecycleOwner,
+//                        onBackPressedCallback
+//                    )
+//
+//                    findNavController().popBackStack()
+//
+//                } else {
+//                    requireActivity().onBackPressedDispatcher.addCallback(
+//                        viewLifecycleOwner,
+//                        onBackPressedCallback
+//                    )
+//
+//                }
+//            }
+//
+//            enable()
+        }
+
+
+
+
+
 
 
 //Exercise #2 Attempt #2 for back button recognition
@@ -67,7 +107,7 @@ class CrimeDetailsFragment :Fragment() {
 //For the next error regarding an expected class body, do I just need to create something like this...
 //override fun onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState)
-
+//
         val crimeTitle = binding.crimeTitle.toString()
         val onBackPressedCallback = object : OnBackPressedCallback(true)
 
@@ -75,36 +115,31 @@ class CrimeDetailsFragment :Fragment() {
          fun handleOnBackPressed(): OnBackPressedCallback {
 
 
-            if (crimeTitle == " ") {
+        if (crimeTitle == " ") {
 
 
-                Toast.makeText(
-                    binding.root.context,
-                    "Cannot Leave Blank Title",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                requireActivity().onBackPressedDispatcher.addCallback(
-                    viewLifecycleOwner,
-                    onBackPressedCallback
-                )
-
-                findNavController().popBackStack()
-
-            } else {
-                requireActivity().onBackPressedDispatcher.addCallback(
-                    viewLifecycleOwner,
-                    onBackPressedCallback
-                )
-
-            }
+            Toast.makeText(
+                binding.root.context,
+                "Cannot Leave Blank Title",
+                Toast.LENGTH_SHORT
+            ).show()
 
             requireActivity().onBackPressedDispatcher.addCallback(
                 viewLifecycleOwner,
-                handleOnBackPressed()
+                onBackPressedCallback
             )
-            return handleOnBackPressed()
+
+            findNavController().popBackStack()
+
+        } else {
+            requireActivity().onBackPressedDispatcher.addCallback(
+                viewLifecycleOwner,
+                onBackPressedCallback
+            )
+
         }
+
+    }
 
 
 
