@@ -74,7 +74,6 @@ private fun setOnBackPressed() {
 
     requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
 
-
         override fun handleOnBackPressed() {
 
 
@@ -85,6 +84,7 @@ private fun setOnBackPressed() {
 
 //No matter how many characters I add to the title It continues to register as '130' in length and doesn't budge
 //What I left the condition to equal for debugging
+// Going back and fourth between ( != 130 ) & ( == 130 ) allows me to see a title being saved blank or not allowed
             if (codedCrimeTitleLength == 130) {
 
 //Toast that will display the length of current crime title
