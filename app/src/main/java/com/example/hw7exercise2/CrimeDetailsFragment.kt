@@ -64,9 +64,8 @@ class CrimeDetailsFragment :Fragment() {
         _binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
 
+
     }
-
-
 
 
 
@@ -74,13 +73,14 @@ private fun setOnBackPressed() {
 
     requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
 
+
+
         override fun handleOnBackPressed() {
 
-
-
-//Started with just the first variable, (crimeTitle == " ") wasn't working I tried a work around below
+            //Started with just the first variable, (crimeTitle == " ") wasn't working I tried a work around below
             val crimeTitle = binding.crimeTitle.toString()
             val codedCrimeTitleLength = crimeTitle.length
+
 
 //No matter how many characters I add to the title It continues to register as '130' in length and doesn't budge
 //What I left the condition to equal for debugging
@@ -134,9 +134,6 @@ private fun setOnBackPressed() {
 
 
 
-
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -150,11 +147,9 @@ private fun setOnBackPressed() {
 
             }
 
-
             crimeDate.apply {
 
                 isEnabled = false
-
             }
 
 
