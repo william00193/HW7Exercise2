@@ -81,20 +81,23 @@ class CrimeDetailsFragment :Fragment() {
 //Everything worked when getText() was inserted between the title name and turining into string
 
                         val crimeTitle = binding.crimeTitle.getText().toString()
+//                        val crimeTitle = binding.crimeTitle.getText().toString().length
 
 //No matter how many characters I add to the title It continues to register as '130' in length and doesn't budge
 //Finally got this one, I had to change how I got the title with getText() and I referenced isEmpty() in the condition
 
                             if (crimeTitle.isEmpty()) {
 
+//                                if (crimeTitle == 0) {
 
-//Toast I will keep once debugging is done
+
                                 Toast.makeText(
                                     binding.root.context,
                                     "Title Does Not Have a Value",
                                     Toast.LENGTH_SHORT
                                 )
                                     .show()
+
 
                             } else {
 
@@ -105,8 +108,6 @@ class CrimeDetailsFragment :Fragment() {
                                     Toast.LENGTH_SHORT
                                 )
                                     .show()
-
-
 
                                 isEnabled = true
 

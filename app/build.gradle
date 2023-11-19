@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
+
+//    New for exercise #2
     id 'androidx.navigation.safeargs'
 }
 
@@ -63,6 +65,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation 'androidx.room:room-common:2.4.3'
     implementation 'androidx.room:room-ktx:2.4.3'
+
+//    New for exercise #2
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
     kapt 'androidx.room:room-compiler:2.4.3'
